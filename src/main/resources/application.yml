@@ -1,0 +1,17 @@
+#server properties
+server:
+  servlet:
+    context-path: /incidentprocessor/v1
+  port: 8080
+  #application properties
+incidents:
+  job:
+    cron:
+      expression: 0 0 4 * * ?
+  record:
+    seperator: ;
+  input:
+    file: "classpath:incidents-input.csv"
+  output:
+    file: "src/main/resources/output.csv"
+    temp-file: "src/main/resources/temp-output.csv"

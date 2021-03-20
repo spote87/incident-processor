@@ -1,0 +1,21 @@
+Configuration:
+  status: warn
+
+  appenders:
+    Console:
+      name: LogToConsole
+      PatternLayout:
+        Pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+
+  Loggers:
+    logger:
+      - name: com.incidents.processor
+        level: info
+        additivity: false
+        AppenderRef:
+          - ref: LogToConsole
+
+    Root:
+      level: error
+      AppenderRef:
+        ref: LogToConsole
