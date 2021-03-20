@@ -7,6 +7,8 @@ import lombok.*;
 import java.util.Objects;
 
 /**
+ * Model class for holding incidents statistics data.
+ *
  * @author Shivaji Pote
  **/
 @Getter

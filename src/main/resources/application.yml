@@ -9,7 +9,7 @@ incidents:
     cron:
       expression: 0 0 4 * * ?
   record:
-    seperator: ;
+    separator: ;
   input:
     file: "classpath:incidents-input.csv"
   output:

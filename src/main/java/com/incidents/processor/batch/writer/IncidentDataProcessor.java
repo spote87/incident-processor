@@ -14,6 +14,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Incidents data processor class.
+ *
  * @author Shivaji Pote
  **/
 @Component
@@ -28,6 +30,11 @@ public class IncidentDataProcessor {
   @Value("${incidents.output.temp-file}")
   private String tempFile;
 
+  /**
+   * This method merges old data from temporary file with data from current chunk and writes it back to temporary file.
+   *
+   * @param incidentStats set of {@link IncidentStat}s from current chunk
+   */
   public void write(final @NonNull Set<IncidentStat> incidentStats) {
     log.debug("Appending incident statistics in existing file");
     final Set<IncidentStat> existingIncidents = incidentStatsReader.read(tempFile);

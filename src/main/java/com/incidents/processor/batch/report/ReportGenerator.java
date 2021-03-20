@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.util.Set;
 
 /**
+ * Incidents statistics report creator class.
+ *
  * @author Shivaji Pote
  **/
 @Log4j2
@@ -24,6 +26,13 @@ public class ReportGenerator {
   @Value("${incidents.record.separator}")
   private char separator;
 
+  /**
+   * This method creates report(file) from provided set of {@link IncidentStat}s. It creates the report with provided
+   * file name.
+   *
+   * @param incidents set of incidents
+   * @param fileName  path of the report file
+   */
   public void createReport(final @NonNull Set<IncidentStat> incidents, final @NonNull String fileName) {
     final CsvMapper csvMapper = new CsvMapper();
     csvMapper.addMixIn(IncidentStat.class, IncidentStatFormat.class);

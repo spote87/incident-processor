@@ -3,6 +3,9 @@ package com.incidents.processor.batch.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
+ * Formatter class used as mixin in jackson {@link com.fasterxml.jackson.dataformat.csv.CsvMapper} for customizing csv
+ * column headers.
+ *
  * @author Shivaji Pote
  **/
 public abstract class IncidentStatFormat {

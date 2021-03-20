@@ -14,6 +14,8 @@ import java.io.File;
 import static org.springframework.http.MediaType.parseMediaType;
 
 /**
+ * Controller class containing endpoints/s for handling incident statistics.
+ *
  * @author Shivaji Pote
  **/
 @Log4j2
@@ -28,6 +30,11 @@ public class IncidentStatsController {
   @Value("${incidents.output.file}")
   private String reportName;
 
+  /**
+   * This endpoint will fetch incident statics report and return the same as file attachment.
+   *
+   * @return {@link ResponseEntity} holding {@link FileSystemResource} which contains report
+   */
   @GetMapping(value = "statistics")
   public ResponseEntity<FileSystemResource> getIncidentStats() {
     final File file = reportService.getReport();

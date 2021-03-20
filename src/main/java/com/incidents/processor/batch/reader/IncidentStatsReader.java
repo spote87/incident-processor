@@ -17,6 +17,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Incidents statistics reader class.
+ *
  * @author Shivaji Pote
  **/
 @Component
@@ -26,6 +28,13 @@ public class IncidentStatsReader {
   @Value("${incidents.record.separator}")
   private char separator;
 
+  /**
+   * This method reads statistics data from provided file. If something goes wrong while reading data, it returns empty
+   * set.
+   *
+   * @param fileName name of the file to read data from
+   * @return {@link Set} of {@link IncidentStat}s or empty set
+   */
   public Set<IncidentStat> read(final String fileName) {
     final CsvMapper mapper = new CsvMapper();
     mapper.addMixIn(IncidentStat.class, IncidentStatFormat.class);

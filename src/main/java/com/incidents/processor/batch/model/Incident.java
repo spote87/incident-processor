@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
+ * Model class for holding row data from incidents input file.
+ *
  * @author Shivaji Pote
  **/
 @Getter

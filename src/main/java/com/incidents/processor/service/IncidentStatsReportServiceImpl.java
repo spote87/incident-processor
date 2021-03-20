@@ -19,6 +19,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
 /**
+ * {@link IncidentStatsReportService} implementation.
+ *
  * @author Shivaji Pote
  **/
 @Service
@@ -31,6 +33,11 @@ public class IncidentStatsReportServiceImpl implements IncidentStatsReportServic
   @Value("${incidents.output.file}")
   private String statsFile;
 
+  /**
+   * {@inheritDoc}
+   *
+   * @return {@link File} instance pointing to incidents statistics report
+   */
   @Override
   public File getReport() {
     log.debug("Fetching incident statistics");

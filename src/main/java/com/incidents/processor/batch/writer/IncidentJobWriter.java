@@ -16,6 +16,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * Incident processor job writer class.
+ *
  * @author Shivaji Pote
  **/
 @Log4j2
@@ -27,8 +29,14 @@ public class IncidentJobWriter implements ItemWriter<Incident> {
 
   private final IncidentDataProcessor incidentDataProcessor;
 
+  /**
+   * This method creates {@link IncidentStat}s from {@link Incident}s and calls {@link IncidentDataProcessor#write(Set)}
+   * to merge statistics from current chunk with old data.
+   *
+   * @param list
+   */
   @Override
-  public void write(final List<? extends Incident> list) throws Exception {
+  public void write(final List<? extends Incident> list) {
     final Map<String, List<Incident>> incidentMap = list.parallelStream().collect(Collectors.groupingBy(Incident::getAssetName));
     final Set<IncidentStat> incidentStats = getCurrentIncidents(incidentMap);
     incidentDataProcessor.write(incidentStats);

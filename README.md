@@ -32,6 +32,11 @@ Application is built using Spring Boot and Java 11. Maven is used for building t
 This application can be divided in two parts, one is batch job and another is REST endpoint/s. I have used spring-batch
 for implementing batch job.
 
+Batch job consists of 2 steps, one step to read input file data in chunks(1000 rows at a time if file is big), process
+it and write it to the temporary file. Second step consists of single tasklet which will read incident statistics from a
+temporary file, calculate downtime and write it to output file which is final report. It is designed in this way in
+order to process big input file/s without worrying about server memory.
+
 While implementing this functionality, I followed TDD approach and that is why code coverage is above 90%.
 
 ## How to Run Application

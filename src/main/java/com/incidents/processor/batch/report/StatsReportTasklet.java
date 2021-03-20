@@ -19,6 +19,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * This is final report generator tasklet.
+ *
  * @author Shivaji Pote
  **/
 @Component
@@ -36,8 +38,16 @@ public class StatsReportTasklet implements Tasklet {
   @Value("${incidents.output.file}")
   private String outputFile;
 
+  /**
+   * This method creates final report by reading data from temporary file. It deletes temporary file after successful
+   * report generation.
+   *
+   * @param stepContribution {@link StepContribution} instance
+   * @param chunkContext     {@link ChunkContext} instance
+   * @return {@link RepeatStatus#FINISHED} upon successful completion
+   */
   @Override
-  public RepeatStatus execute(final StepContribution stepContribution, final ChunkContext chunkContext) throws Exception {
+  public RepeatStatus execute(final StepContribution stepContribution, final ChunkContext chunkContext) {
     log.info("Writing stats data to {}", outputFile);
     final Set<IncidentStat> allStats = incidentStatsReader.read(tempFile);
     final Set<IncidentStat> processedStats = allStats.parallelStream().map(this::computeDownTime).collect(Collectors.toSet());

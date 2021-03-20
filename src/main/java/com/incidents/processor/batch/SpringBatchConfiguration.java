@@ -23,6 +23,8 @@ import org.springframework.core.io.Resource;
 
 
 /**
+ * This incidents processor batch job configuration class.
+ *
  * @author Shivaji Pote
  **/
 @Log4j2
@@ -45,26 +47,53 @@ public class SpringBatchConfiguration {
   @Value("${incidents.record.separator}")
   private String separator;
 
+  /**
+   * Incidents processor job bean definition.
+   *
+   * @return incident processor {@link Job} instance
+   */
   @Bean
   public Job incidentsProcessorJob() {
-    return jobBuilderFactory.get("Incidents Processor Job").incrementer(new RunIdIncrementer()).flow(incidentProcessorStep()).next(statsFileWriterStep()).end().build();
+    return jobBuilderFactory.get("Incidents Processor Job").incrementer(new RunIdIncrementer()).flow(incidentProcessorStep()).next(reportGeneratorStep()).end().build();
   }
 
-  private Step statsFileWriterStep() {
+  /**
+   * Final report generator step. This step will create final incident statistics report.
+   *
+   * @return {@link Step} bean for report generator step
+   */
+  private Step reportGeneratorStep() {
     return stepBuilderFactory.get("Create Incidents Stats").allowStartIfComplete(true).tasklet(statsWriterTasklet).build();
   }
 
+  /**
+   * Temporary incident statistics report generator step. This step will create temporary file and update incident *
+   * statistic in each chunk. It processes 1000 incidents in each chunk.
+   *
+   * @return {@link Step} bean for incidents processing step
+   */
   @Bean
   public Step incidentProcessorStep() {
     return stepBuilderFactory.get("Incident Processor Step").allowStartIfComplete(true).<Incident, Incident>
       chunk(1000).reader(incidentDataReader()).processor(incidentProcessor()).writer(incidentJobWriter).build();
   }
 
+  /**
+   * Incident job processor bean definition.
+   *
+   * @return {@link ItemProcessor} instance
+   */
   @Bean
   public ItemProcessor<Incident, Incident> incidentProcessor() {
     return a -> a;
   }
 
+  /**
+   * Reader bean definition for incidents processor job. This bean is configured to read incidents from input incidents
+   * file.
+   *
+   * @return {@link ItemReader} instance
+   */
   @Bean
   public ItemReader<Incident> incidentDataReader() {
     log.debug("Creating incidents reader instance");
